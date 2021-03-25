@@ -8,137 +8,169 @@ using Unity.MLAgents.Actuators;
 
 public class CarDriverAgent : Agent
 {
-    Rigidbody rBody;
-    WheelDrive wd;
+  Rigidbody rBody;
+  WheelDrive wd;
 
-    // Current spawnpoint is manually created
-    public Transform spawnPoint;
-    public Transform targetPoint;
+  // Current spawnpoint is manually created
+  public Transform spawnPoint;
+  public List<Transform> targetPoints;
 
-    void Start()
+  private int currTargetPointIndex;
+  public Transform targetPoint
+  {
+    get
     {
-        rBody = GetComponent<Rigidbody>();
-        wd = GetComponent<WheelDrive>();
+      return targetPoints[currTargetPointIndex];
     }
+  }
 
-    public override void OnEpisodeBegin()
+  private Transform incrementTargetPoint()
+  {
+    if (currTargetPointIndex + 1 >= targetPoints.Count)
     {
-        rBody.velocity = Vector3.zero;
-        transform.position = spawnPoint.position;
-        transform.rotation = Quaternion.identity;
+      return null;
     }
-
-    public override void OnActionReceived(ActionBuffers actions)
+    else
     {
-        // handle movement
-        var discreteActionsOut = actions.DiscreteActions;
-
-        MoveAgent(discreteActionsOut[0]);
-        SteerAgent(discreteActionsOut[1]);
-
-        // mete out rewards and punishment!!
-
-        // make sure all 4 wheels are on the road!
-
-        // Die if you fall off
-        if(transform.position.y < -1.0f)
-        {
-            EndEpisode();
-        }
-
-        float distanceToTarget = Vector3.Distance(this.transform.localPosition, targetPoint.localPosition);
-        // Simple "Win if reach point"
-        if (distanceToTarget < 3f)
-        {
-            SetReward(1.0f);
-            EndEpisode();
-        }
+      return targetPoints[++currTargetPointIndex];
     }
+  }
 
-    public void MoveAgent(int act)
+  void Start()
+  {
+    rBody = GetComponent<Rigidbody>();
+    wd = GetComponent<WheelDrive>();
+  }
+
+  public override void OnEpisodeBegin()
+  {
+    rBody.velocity = Vector3.zero;
+    transform.position = spawnPoint.position;
+    transform.rotation = Quaternion.identity;
+  }
+
+  public override void OnActionReceived(ActionBuffers actions)
+  {
+    // handle movement
+    var discreteActionsOut = actions.DiscreteActions;
+
+    MoveAgent(discreteActionsOut[0]);
+    SteerAgent(discreteActionsOut[1]);
+
+    // mete out rewards and punishment!!
+
+    // make sure all 4 wheels are on the road!
+
+    // Die if you fall off
+    if (transform.position.y < -1.0f)
     {
-        var directionDrive = 0;
-
-        switch (act)
-        {
-            case 0:
-                directionDrive = 0;
-                break;
-            case 1:
-                directionDrive = 1;
-                break;
-            case 2:
-                directionDrive = -1;
-                break;
-        }
-
-        wd.set_torque(directionDrive);
+      EndEpisode();
     }
 
-    public void SteerAgent(int act)
+    float distanceToTarget = Vector3.Distance(this.transform.localPosition, targetPoint.localPosition);
+
+    // add rewards if a target point is reached
+    if (distanceToTarget < 3f)
     {
-        var directionSteer = 0;
+      AddReward(1.0f);
 
-        switch (act)
-        {
-            case 0:
-                directionSteer = 0;
-                break;
-            case 1:
-                directionSteer = 1;
-                break;
-            case 2:
-                directionSteer = -1;
-                break;
-        }
+      // increment target point, end episode if at end
+      if (incrementTargetPoint() == null)
+      {
+        EndEpisode();
+      }
 
-        wd.set_angle(directionSteer);
     }
+  }
 
-    public override void Heuristic(in ActionBuffers actionsOut)
+  public void MoveAgent(int act)
+  {
+    var directionDrive = 0;
+
+    switch (act)
     {
-        var discreteActionsOut = actionsOut.DiscreteActions;
-        // We probably will want to use actual key presses here (discrete), instead of axises since they're continuous 
-        discreteActionsOut[1] = axisToDiscrete((int) Input.GetAxis("Horizontal"));
-        discreteActionsOut[0] = axisToDiscrete((int) Input.GetAxis("Vertical"));
+      case 0:
+        directionDrive = 0;
+        break;
+      case 1:
+        directionDrive = 1;
+        break;
+      case 2:
+        directionDrive = -1;
+        break;
     }
 
-    public override void CollectObservations(VectorSensor sensor)
+    wd.set_torque(directionDrive);
+  }
+
+  public void SteerAgent(int act)
+  {
+    var directionSteer = 0;
+
+    switch (act)
     {
-        // Simple starting observations
-
-        // Target and Agent positions
-        sensor.AddObservation(targetPoint.localPosition);
-        sensor.AddObservation(this.transform.localPosition);
-
-        // Agent velocity
-        sensor.AddObservation(rBody.velocity.x);
-        sensor.AddObservation(rBody.velocity.z);
+      case 0:
+        directionSteer = 0;
+        break;
+      case 1:
+        directionSteer = 1;
+        break;
+      case 2:
+        directionSteer = -1;
+        break;
     }
 
-    private int axisToDiscrete(int axis) {
-        switch (axis) {
-            case -1:
-                return 2;
-            case 0:
-                return 0;
-            case 1:
-                return 1;
-            default:
-                return 0;
-        }
-    }
+    wd.set_angle(directionSteer);
+  }
 
-    private int discreteToAxis(int discrete) {
-        switch (discrete) {
-            case 0:
-                return 0;
-            case 1:
-                return 1;
-            case 2:
-                return -1;
-            default:
-                return 0;
-        }
+  public override void Heuristic(in ActionBuffers actionsOut)
+  {
+    var discreteActionsOut = actionsOut.DiscreteActions;
+    // We probably will want to use actual key presses here (discrete), instead of axises since they're continuous 
+    discreteActionsOut[1] = axisToDiscrete((int)Input.GetAxis("Horizontal"));
+    discreteActionsOut[0] = axisToDiscrete((int)Input.GetAxis("Vertical"));
+  }
+
+  public override void CollectObservations(VectorSensor sensor)
+  {
+    // Simple starting observations
+
+    // Target and Agent positions
+    sensor.AddObservation(targetPoint.localPosition);
+    sensor.AddObservation(this.transform.localPosition);
+
+    // Agent velocity
+    sensor.AddObservation(rBody.velocity.x);
+    sensor.AddObservation(rBody.velocity.z);
+  }
+
+  private int axisToDiscrete(int axis)
+  {
+    switch (axis)
+    {
+      case -1:
+        return 2;
+      case 0:
+        return 0;
+      case 1:
+        return 1;
+      default:
+        return 0;
     }
+  }
+
+  private int discreteToAxis(int discrete)
+  {
+    switch (discrete)
+    {
+      case 0:
+        return 0;
+      case 1:
+        return 1;
+      case 2:
+        return -1;
+      default:
+        return 0;
+    }
+  }
 }
