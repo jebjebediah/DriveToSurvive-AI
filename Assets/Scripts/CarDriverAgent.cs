@@ -23,6 +23,7 @@ public class CarDriverAgent : Agent
     {
         rBody.velocity = Vector3.zero;
         transform.position = spawnPoint.position;
+        transform.rotation = Quaternion.identity;
     }
 
     public void Update()
@@ -44,7 +45,9 @@ public class CarDriverAgent : Agent
 
     public override void OnActionReceived(ActionBuffers actions)
     {
+        var discreteActionsOut = actions.DiscreteActions;
         // Current actions/inputs are in Scripts/WheelDrive, will need to replace here with heuristic
+        GetComponent<WheelDrive>().set_inputs(discreteActionsOut[0], discreteActionsOut[1]);
         // discreteActionsOut[0]
         // discreteActionsOut[1]
     }
@@ -53,8 +56,8 @@ public class CarDriverAgent : Agent
     {
         var discreteActionsOut = actionsOut.DiscreteActions;
         // We probably will want to use actual key presses here (discrete), instead of axises since they're continuous 
-        //discreteActionsOut[0] = (int) Input.GetAxis("Horizontal");
-        //discreteActionsOut[1] = (int) Input.GetAxis("Vertical");
+        discreteActionsOut[0] = (int) Input.GetAxis("Horizontal");
+        discreteActionsOut[1] = (int) Input.GetAxis("Vertical");
     }
 
     public override void CollectObservations(VectorSensor sensor)
