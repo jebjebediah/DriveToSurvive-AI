@@ -59,6 +59,16 @@ public class WheelDrive : MonoBehaviour
 		torque = maxTorque * ml_torque;
 	}
 
+	public void set_angle(int ml_angle)
+	{
+		angle = maxAngle * ml_angle;
+	}
+
+	public void set_torque(int ml_torque)
+	{
+		torque = maxTorque * ml_torque;
+	}
+
 	// This is a really simple approach to updating wheels.
 	// We simulate a rear wheel drive car and assume that the car is perfectly symmetric at local zero.
 	// This helps us to figure our which wheels are front ones and which are rear.
@@ -113,6 +123,13 @@ public class WheelDrive : MonoBehaviour
                     shapeTransform.rotation = q;
                 }
 			}
+		}
+	}
+
+	public int GetNumWheelsOnRoad() {
+		foreach (WheelCollider wheel in m_Wheels)
+		{
+			
 		}
 	}
 }

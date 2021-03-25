@@ -9,6 +9,7 @@ using Unity.MLAgents.Actuators;
 public class CarDriverAgent : Agent
 {
     Rigidbody rBody;
+    WheelDrive wd;
 
     // Current spawnpoint is manually created
     public Transform spawnPoint;
@@ -17,6 +18,7 @@ public class CarDriverAgent : Agent
     void Start()
     {
         rBody = GetComponent<Rigidbody>();
+        wd = GetComponent<WheelDrive>();
     }
 
     public override void OnEpisodeBegin()
@@ -26,10 +28,18 @@ public class CarDriverAgent : Agent
         transform.rotation = Quaternion.identity;
     }
 
-    public void Update()
+    public override void OnActionReceived(ActionBuffers actions)
     {
-        // Simple "Die if you fall off"
-        if(transform.position.y < 0.0f)
+        // handle movement
+        var discreteActionsOut = actions.DiscreteActions;
+
+        MoveAgent(discreteActionsOut[0]);
+        SteerAgent(discreteActionsOut[1]);
+
+        // mete out rewards and punishment!!
+
+        // Die if you fall off
+        if(transform.position.y < -1.0f)
         {
             EndEpisode();
         }
@@ -43,45 +53,31 @@ public class CarDriverAgent : Agent
         }
     }
 
-    public override void OnActionReceived(ActionBuffers actions)
+    public void MoveAgent(int act)
     {
-        var discreteActionsOut = actions.DiscreteActions;
-        // Current actions/inputs are in Scripts/WheelDrive, will need to replace here with heuristic
-        GetComponent<WheelDrive>().set_inputs(discreteActionsOut[0], discreteActionsOut[1]);
-        // discreteActionsOut[0]
-        // discreteActionsOut[1]
+        var directionDrive = 0;
 
-        MoveAgent(actions.DiscreteActions);
-        SteerAgent(actions.DiscreteActions);
-    }
-
-    public void MoveAgent(ActionSegment<int> act)
-    {
-        var driveAction = act[0];
-
-        var directionVelocity = 0;
-
-        switch (driveAction)
+        switch (act)
         {
             case 0:
-                directionVelocity = 0;
+                directionDrive = 0;
                 break;
             case 1:
-                directionVelocity = 1;
+                directionDrive = 1;
                 break;
             case 2:
-                directionVelocity = -1;
+                directionDrive = -1;
                 break;
         }
+
+        wd.set_torque(directionDrive);
     }
 
-    public void SteerAgent(ActionSegment<int> act)
+    public void SteerAgent(int act)
     {
-        var steerAction = act[1];
-
         var directionSteer = 0;
 
-        switch (steerAction)
+        switch (act)
         {
             case 0:
                 directionSteer = 0;
@@ -93,14 +89,16 @@ public class CarDriverAgent : Agent
                 directionSteer = -1;
                 break;
         }
+
+        wd.set_angle(directionSteer);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         var discreteActionsOut = actionsOut.DiscreteActions;
         // We probably will want to use actual key presses here (discrete), instead of axises since they're continuous 
-        discreteActionsOut[0] = (int) Input.GetAxis("Horizontal");
-        discreteActionsOut[1] = (int) Input.GetAxis("Vertical");
+        discreteActionsOut[1] = axisToDiscrete((int) Input.GetAxis("Horizontal"));
+        discreteActionsOut[0] = axisToDiscrete((int) Input.GetAxis("Vertical"));
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -114,5 +112,31 @@ public class CarDriverAgent : Agent
         // Agent velocity
         sensor.AddObservation(rBody.velocity.x);
         sensor.AddObservation(rBody.velocity.z);
+    }
+
+    private int axisToDiscrete(int axis) {
+        switch (axis) {
+            case -1:
+                return 2;
+            case 0:
+                return 0;
+            case 1:
+                return 1;
+            default:
+                return 0;
+        }
+    }
+
+    private int discreteToAxis(int discrete) {
+        switch (discrete) {
+            case 0:
+                return 0;
+            case 1:
+                return 1;
+            case 2:
+                return -1;
+            default:
+                return 0;
+        }
     }
 }
