@@ -47,6 +47,49 @@ public class CarDriverAgent : Agent
         // Current actions/inputs are in Scripts/WheelDrive, will need to replace here with heuristic
         // discreteActionsOut[0]
         // discreteActionsOut[1]
+
+        MoveAgent(actions.DiscreteActions);
+        SteerAgent(actions.DiscreteActions);
+    }
+
+    public void MoveAgent(ActionSegment<int> act)
+    {
+        var driveAction = act[0];
+
+        var directionVelocity = 0;
+
+        switch (driveAction)
+        {
+            case 0:
+                directionVelocity = 0;
+                break;
+            case 1:
+                directionVelocity = 1;
+                break;
+            case 2:
+                directionVelocity = -1;
+                break;
+        }
+    }
+
+    public void SteerAgent(ActionSegment<int> act)
+    {
+        var steerAction = act[1];
+
+        var directionSteer = 0;
+
+        switch (steerAction)
+        {
+            case 0:
+                directionSteer = 0;
+                break;
+            case 1:
+                directionSteer = 1;
+                break;
+            case 2:
+                directionSteer = -1;
+                break;
+        }
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
