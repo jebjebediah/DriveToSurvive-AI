@@ -38,6 +38,8 @@ public class CarDriverAgent : Agent
 
         // mete out rewards and punishment!!
 
+        // make sure all 4 wheels are on the road!
+
         // Die if you fall off
         if(transform.position.y < -1.0f)
         {
