@@ -79,6 +79,7 @@ public class CarDriverAgent : Agent
 
     if (rBody.velocity.magnitude <= .3f)
     {
+        AddReward(-.0001f);
         if(!isSlow)
         {
             slowTime = time;
@@ -87,6 +88,7 @@ public class CarDriverAgent : Agent
         if(time - slowTime > 5f)
         {
             EndEpisode();
+
         }
     }
 

@@ -2,17 +2,17 @@
     "Driver_Agent": {
         "checkpoints": [
             {
-                "steps": 842,
-                "file_path": "results\\first\\Driver_Agent\\Driver_Agent-842.onnx",
+                "steps": 8277,
+                "file_path": "results\\first\\Driver_Agent\\Driver_Agent-8277.onnx",
                 "reward": null,
-                "creation_time": 1616729515.3706625
+                "creation_time": 1616730514.3773549
             }
         ],
         "final_checkpoint": {
-            "steps": 842,
+            "steps": 8277,
             "file_path": "results\\first\\Driver_Agent.onnx",
             "reward": null,
-            "creation_time": 1616729515.3706625
+            "creation_time": 1616730514.3773549
         }
     },
     "metadata": {
