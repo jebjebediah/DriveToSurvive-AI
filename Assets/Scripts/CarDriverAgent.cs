@@ -126,9 +126,35 @@ public class CarDriverAgent : Agent
   public override void Heuristic(in ActionBuffers actionsOut)
   {
     var discreteActionsOut = actionsOut.DiscreteActions;
-    // We probably will want to use actual key presses here (discrete), instead of axises since they're continuous 
-    discreteActionsOut[1] = axisToDiscrete((int)Input.GetAxis("Horizontal"));
-    discreteActionsOut[0] = axisToDiscrete((int)Input.GetAxis("Vertical"));
+    // We probably will want to use actual key presses here (discrete), instead of axises since they're continuous
+    if (Input.GetKey(KeyCode.UpArrow))
+    {
+        discreteActionsOut[0] = 1;
+    }
+    else if (Input.GetKey(KeyCode.DownArrow))
+    {
+        discreteActionsOut[0] = 2;
+    }
+    else
+    {
+        discreteActionsOut[0] = 0;
+    }
+
+    if (Input.GetKey(KeyCode.LeftArrow))
+    {
+        discreteActionsOut[1] = 2;
+    }
+    else if (Input.GetKey(KeyCode.RightArrow))
+    {
+        discreteActionsOut[1] = 1;
+    }
+    else
+    {
+        discreteActionsOut[1] = 0;
+    }
+
+    //discreteActionsOut[1] = axisToDiscrete((int)Input.GetAxis("Horizontal"));
+    //discreteActionsOut[0] = axisToDiscrete((int)Input.GetAxis("Vertical"));
   }
 
   public override void CollectObservations(VectorSensor sensor)
