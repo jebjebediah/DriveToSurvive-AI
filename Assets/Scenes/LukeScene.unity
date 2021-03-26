@@ -3409,9 +3409,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1678673470096142370, guid: 6577377bae7db18429e690f8f8f57881,
         type: 3}
+      propertyPath: m_Width
+      value: 42
+      objectReference: {fileID: 0}
+    - target: {fileID: 1678673470096142370, guid: 6577377bae7db18429e690f8f8f57881,
+        type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 914854983}
+    - target: {fileID: 1678673470096142370, guid: 6577377bae7db18429e690f8f8f57881,
+        type: 3}
+      propertyPath: m_Height
+      value: 42
+      objectReference: {fileID: 0}
     - target: {fileID: 1678673470096142370, guid: 6577377bae7db18429e690f8f8f57881,
         type: 3}
       propertyPath: m_Grayscale
@@ -3420,17 +3430,17 @@ PrefabInstance:
     - target: {fileID: 1678673470096142370, guid: 6577377bae7db18429e690f8f8f57881,
         type: 3}
       propertyPath: m_ObservationStacks
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2257543512008930830, guid: 6577377bae7db18429e690f8f8f57881,
         type: 3}
       propertyPath: m_BehaviorName
-      value: My Behavior
+      value: Driver_Agent
       objectReference: {fileID: 0}
     - target: {fileID: 2257543512008930830, guid: 6577377bae7db18429e690f8f8f57881,
         type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 9
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5138660467657994817, guid: 6577377bae7db18429e690f8f8f57881,
         type: 3}

@@ -10,6 +10,9 @@ public class CarDriverAgent : Agent
 {
   Rigidbody rBody;
   WheelDrive wd;
+    float time = 0.0f;
+    float slowTime = 0.0f;
+    bool isSlow = false;
 
   // Current spawnpoint is manually created
   public Transform spawnPoint;
@@ -40,6 +43,7 @@ public class CarDriverAgent : Agent
   {
     rBody = GetComponent<Rigidbody>();
     wd = GetComponent<WheelDrive>();
+        time = 0.0f;
   }
 
   public override void OnEpisodeBegin()
@@ -49,7 +53,12 @@ public class CarDriverAgent : Agent
     transform.rotation = Quaternion.identity;
   }
 
-  public override void OnActionReceived(ActionBuffers actions)
+    private void Update()
+    {
+        time += Time.deltaTime;
+    }
+
+    public override void OnActionReceived(ActionBuffers actions)
   {
     // handle movement
     var discreteActionsOut = actions.DiscreteActions;
@@ -68,9 +77,23 @@ public class CarDriverAgent : Agent
         EndEpisode();
     }
 
+    if (rBody.velocity.magnitude <= .3f)
+    {
+        if(!isSlow)
+        {
+            slowTime = time;
+        }
+        isSlow = true;
+        if(time - slowTime > 5f)
+        {
+            EndEpisode();
+        }
+    }
+
     // Add minute remward that increases as speed increases
     if(rBody.velocity.magnitude > 1f)
     {
+        isSlow = false;
         AddReward(.0001f * rBody.velocity.magnitude);
     }
     
@@ -170,8 +193,7 @@ public class CarDriverAgent : Agent
     // Simple starting observations
 
     // Target and Agent positions
-    sensor.AddObservation(targetPoint.localPosition);
-    sensor.AddObservation(this.transform.localPosition);
+    sensor.AddObservation(targetPoint.localPosition - this.transform.localPosition);
     sensor.AddObservation(rBody.velocity.magnitude);
 
     // Agent velocity
