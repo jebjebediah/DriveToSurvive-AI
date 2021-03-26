@@ -94,13 +94,18 @@ public class WheelDrive : MonoBehaviour
 
 			if (wheel.transform.localPosition.z < 0 && driveType != DriveType.FrontWheelDrive)
 			{
-				wheel.motorTorque = torque;
+				if (torque < 0) {
+					wheel.brakeTorque = brakeTorque;
+				}
+				else {
+					wheel.motorTorque = torque;
+				}			
 			}
 
 			if (wheel.transform.localPosition.z >= 0 && driveType != DriveType.RearWheelDrive)
 			{
 				if (torque < 0) {
-					wheel.brakeTorque = -torque * brakeTorque;
+					wheel.brakeTorque = brakeTorque;
 				}
 				else {
 					wheel.motorTorque = torque;
