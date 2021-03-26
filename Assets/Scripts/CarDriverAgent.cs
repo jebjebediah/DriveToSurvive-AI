@@ -64,8 +64,16 @@ public class CarDriverAgent : Agent
     // Die if you fall off
     if (transform.position.y < -1.0f)
     {
-      EndEpisode();
+        AddReward(-.33f);
+        EndEpisode();
     }
+
+    // Add minute remward that increases as speed increases
+    if(rBody.velocity.magnitude > 1f)
+    {
+        AddReward(.0001f * rBody.velocity.magnitude);
+    }
+    
 
     float distanceToTarget = Vector3.Distance(this.transform.localPosition, targetPoint.localPosition);
 
@@ -138,6 +146,7 @@ public class CarDriverAgent : Agent
     // Target and Agent positions
     sensor.AddObservation(targetPoint.localPosition);
     sensor.AddObservation(this.transform.localPosition);
+    sensor.AddObservation(rBody.velocity.magnitude);
 
     // Agent velocity
     sensor.AddObservation(rBody.velocity.x);
