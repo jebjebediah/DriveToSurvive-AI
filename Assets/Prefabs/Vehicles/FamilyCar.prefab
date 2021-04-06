@@ -144,7 +144,7 @@ WheelCollider:
     damper: 6433.375
     targetPosition: 0.5
   m_SuspensionDistance: 0.19620001
-  m_ForceAppPointDistance: 0.677952
+  m_ForceAppPointDistance: 0.67795193
   m_Mass: 20
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
@@ -298,7 +298,7 @@ WheelCollider:
     damper: 5486.9604
     targetPosition: 0.5
   m_SuspensionDistance: 0.19619998
-  m_ForceAppPointDistance: 0.677952
+  m_ForceAppPointDistance: 0.67795193
   m_Mass: 20
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
@@ -359,7 +359,7 @@ WheelCollider:
     damper: 6513.0405
     targetPosition: 0.5
   m_SuspensionDistance: 0.19620003
-  m_ForceAppPointDistance: 0.677952
+  m_ForceAppPointDistance: 0.67795193
   m_Mass: 20
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
@@ -537,7 +537,7 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
   spawnPoint: {fileID: 0}
-  targetPoint: {fileID: 0}
+  targetPoints: []
 --- !u!114 &2397743921606572311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -597,7 +597,7 @@ WheelCollider:
     damper: 5566.626
     targetPosition: 0.5
   m_SuspensionDistance: 0.19619998
-  m_ForceAppPointDistance: 0.677952
+  m_ForceAppPointDistance: 0.67795193
   m_Mass: 20
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
@@ -653,7 +653,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3774313945315727191}
   - component: {fileID: 1147833200166544228}
-  - component: {fileID: 8213133063297919494}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -718,11 +717,3 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &8213133063297919494
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5988718167145896605}
-  m_Enabled: 1

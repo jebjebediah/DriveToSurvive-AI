@@ -1,0 +1,23 @@
+{
+    "Driver_Agent": {
+        "checkpoints": [
+            {
+                "steps": 439511,
+                "file_path": "results\\second\\Driver_Agent\\Driver_Agent-439511.onnx",
+                "reward": -0.3136420702115477,
+                "creation_time": 1616792568.859879
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 439511,
+            "file_path": "results\\second\\Driver_Agent.onnx",
+            "reward": -0.3136420702115477,
+            "creation_time": 1616792568.859879
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.2.0",
+        "mlagents_version": "0.24.0",
+        "torch_version": "1.7.0+cu110"
+    }
+}

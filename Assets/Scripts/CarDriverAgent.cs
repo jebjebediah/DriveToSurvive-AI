@@ -15,7 +15,7 @@ public class CarDriverAgent : Agent
     bool isSlow = false;
 
   // Current spawnpoint is manually created
-  public Transform spawnPoint;
+  public List<Transform> spawnPoints;
   public List<Transform> targetPoints;
 
   private int currTargetPointIndex;
@@ -48,10 +48,17 @@ public class CarDriverAgent : Agent
 
   public override void OnEpisodeBegin()
   {
-    rBody.velocity = Vector3.zero;
-    transform.position = spawnPoint.position;
-    transform.rotation = Quaternion.identity;
-  }
+        rBody.velocity = Vector3.zero;
+        //transform.position = spawnPoint.position;
+        //transform.rotation = Quaternion.identity;
+        int rng = Random.Range(0, spawnPoints.Count - 1);
+        currTargetPointIndex = Random.Range(0, targetPoints.Count - 1);
+        transform.position = spawnPoints[rng].position;
+        transform.rotation = spawnPoints[rng].rotation;
+
+        //transform.position = new Vector3(Random.Range(-100, 100), 1f, Random.Range(-100, 100));
+        //transform.rotation = Quaternion.Euler(new Vector3(0f, Random.Range(0, 360)));
+    }
 
     private void Update()
     {
@@ -70,16 +77,22 @@ public class CarDriverAgent : Agent
 
     // make sure all 4 wheels are on the road!
 
+
+    // The direction from the agent to the target
+    Vector3 dirToTarget = (targetPoint.position - this.transform.position).normalized;
+    // The alignment of the agent's velocity with this direction
+    float velocityAlignment = Vector3.Dot(dirToTarget, rBody.velocity);
+    AddReward(0.0001f * velocityAlignment);
+
     // Die if you fall off
     if (transform.position.y < -1.0f)
     {
-        AddReward(-.33f);
+        AddReward(-.25f);
         EndEpisode();
     }
 
-    if (rBody.velocity.magnitude <= .3f)
+    if (rBody.velocity.magnitude <= .4f)
     {
-        AddReward(-.0001f);
         if(!isSlow)
         {
             slowTime = time;
@@ -87,31 +100,31 @@ public class CarDriverAgent : Agent
         isSlow = true;
         if(time - slowTime > 5f)
         {
+            AddReward(-.5f);
             EndEpisode();
-
         }
     }
 
     // Add minute remward that increases as speed increases
-    if(rBody.velocity.magnitude > 1f)
+    if(rBody.velocity.magnitude > .4f)
     {
         isSlow = false;
-        AddReward(.0001f * rBody.velocity.magnitude);
+        //AddReward(.0001f * rBody.velocity.magnitude);
     }
     
 
     float distanceToTarget = Vector3.Distance(this.transform.localPosition, targetPoint.localPosition);
 
     // add rewards if a target point is reached
-    if (distanceToTarget < 3f)
+    if (distanceToTarget < 2f)
     {
       AddReward(1.0f);
 
       // increment target point, end episode if at end
-      if (incrementTargetPoint() == null)
-      {
+      //if (incrementTargetPoint() == null)
+      //{
         EndEpisode();
-      }
+      //}
 
     }
   }
@@ -196,11 +209,12 @@ public class CarDriverAgent : Agent
 
     // Target and Agent positions
     sensor.AddObservation(targetPoint.localPosition - this.transform.localPosition);
-    sensor.AddObservation(rBody.velocity.magnitude);
+    sensor.AddObservation(targetPoint.localPosition);
+    sensor.AddObservation(rBody.velocity);
 
     // Agent velocity
-    sensor.AddObservation(rBody.velocity.x);
-    sensor.AddObservation(rBody.velocity.z);
+    //sensor.AddObservation(rBody.velocity.x);
+    //sensor.AddObservation(rBody.velocity.z);
   }
 
   private int axisToDiscrete(int axis)

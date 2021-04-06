@@ -2,17 +2,23 @@
     "Driver_Agent": {
         "checkpoints": [
             {
-                "steps": 8277,
-                "file_path": "results\\first\\Driver_Agent\\Driver_Agent-8277.onnx",
-                "reward": null,
-                "creation_time": 1616730514.3773549
+                "steps": 88314,
+                "file_path": "results\\first\\Driver_Agent\\Driver_Agent-88314.onnx",
+                "reward": -0.3263230483889645,
+                "creation_time": 1617679911.265038
+            },
+            {
+                "steps": 435512,
+                "file_path": "results\\first\\Driver_Agent\\Driver_Agent-435512.onnx",
+                "reward": -0.27539238645331354,
+                "creation_time": 1617720016.940925
             }
         ],
         "final_checkpoint": {
-            "steps": 8277,
+            "steps": 435512,
             "file_path": "results\\first\\Driver_Agent.onnx",
-            "reward": null,
-            "creation_time": 1616730514.3773549
+            "reward": -0.27539238645331354,
+            "creation_time": 1617720016.940925
         }
     },
     "metadata": {
