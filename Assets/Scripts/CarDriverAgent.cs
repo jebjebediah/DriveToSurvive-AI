@@ -85,7 +85,7 @@ public class CarDriverAgent : Agent
     AddReward(0.0001f * velocityAlignment);
 
     // Die if you fall off
-    if (transform.position.y < -1.0f)
+    if (transform.localPosition.y < -.5f)
     {
         AddReward(-.25f);
         EndEpisode();
@@ -109,7 +109,7 @@ public class CarDriverAgent : Agent
     if(rBody.velocity.magnitude > .4f)
     {
         isSlow = false;
-        //AddReward(.0001f * rBody.velocity.magnitude);
+        AddReward(.0001f * rBody.velocity.magnitude);
     }
     
 
