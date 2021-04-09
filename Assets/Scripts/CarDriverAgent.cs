@@ -10,9 +10,12 @@ public class CarDriverAgent : Agent
 {
   Rigidbody rBody;
   WheelDrive wd;
-    float time = 0.0f;
-    float slowTime = 0.0f;
-    bool isSlow = false;
+  RoadBuilding roadbuilder;
+  float time = 0.0f;
+  float slowTime = 0.0f;
+  bool isSlow = false;
+
+  public bool useRoadBuilder;
 
   // Current spawnpoint is manually created
   public List<Transform> spawnPoints;
@@ -23,6 +26,7 @@ public class CarDriverAgent : Agent
   {
     get
     {
+      if (targetPoints.Count <= 0) return gameObject.transform;
       return targetPoints[currTargetPointIndex];
     }
   }
@@ -43,11 +47,14 @@ public class CarDriverAgent : Agent
   {
     rBody = GetComponent<Rigidbody>();
     wd = GetComponent<WheelDrive>();
-        time = 0.0f;
+    time = 0.0f;
+    roadbuilder = GetComponent<RoadBuilding>();
   }
 
   public override void OnEpisodeBegin()
   {
+        if (useRoadBuilder) targetPoints.Clear();
+        if (useRoadBuilder) roadbuilder.CreateRoad();
         rBody.velocity = Vector3.zero;
         //transform.position = spawnPoint.position;
         //transform.rotation = Quaternion.identity;
@@ -88,6 +95,7 @@ public class CarDriverAgent : Agent
     if (transform.localPosition.y < -.5f)
     {
         AddReward(-.25f);
+        if (useRoadBuilder) roadbuilder.DestroyRoad();
         EndEpisode();
     }
 
@@ -101,6 +109,7 @@ public class CarDriverAgent : Agent
         if(time - slowTime > 5f)
         {
             AddReward(-.5f);
+            if (useRoadBuilder) roadbuilder.DestroyRoad();   
             EndEpisode();
         }
     }
@@ -123,10 +132,22 @@ public class CarDriverAgent : Agent
       // increment target point, end episode if at end
       //if (incrementTargetPoint() == null)
       //{
+        if (useRoadBuilder) roadbuilder.DestroyRoad();
         EndEpisode();
       //}
 
     }
+  }
+
+
+  //Adds a goal point when a road is generated
+  public void RegisterDrivePoint(Transform drivePoint) {
+    targetPoints.Add(drivePoint);
+  }
+
+  //Removes all goal points when an episode ends using road generation
+  public void RemoveDrivePoints() {
+    targetPoints.Clear();
   }
 
   public void MoveAgent(int act)
