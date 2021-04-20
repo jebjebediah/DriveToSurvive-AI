@@ -19,7 +19,7 @@ public class CarDriverAgent : Agent
 
   // Current spawnpoint is manually created
   public List<Transform> spawnPoints;
-  public List<Transform> targetPoints;
+    public List<Transform> targetPoints;
 
   private int currTargetPointIndex;
   public Transform targetPoint
@@ -59,7 +59,9 @@ public class CarDriverAgent : Agent
         //transform.position = spawnPoint.position;
         //transform.rotation = Quaternion.identity;
         int rng = Random.Range(0, spawnPoints.Count - 1);
-        currTargetPointIndex = Random.Range(0, targetPoints.Count - 1);
+        //currTargetPointIndex = Random.Range(0, targetPoints.Count - 1);
+        time = 0.0f;
+        currTargetPointIndex = 0;
         transform.position = spawnPoints[rng].position;
         transform.rotation = spawnPoints[rng].rotation;
 
@@ -118,24 +120,28 @@ public class CarDriverAgent : Agent
     if(rBody.velocity.magnitude > .4f)
     {
         isSlow = false;
-        AddReward(.0001f * rBody.velocity.magnitude);
+        AddReward(.00001f * rBody.velocity.magnitude);
     }
     
 
-    float distanceToTarget = Vector3.Distance(this.transform.localPosition, targetPoint.localPosition);
+    float distanceToTarget = Vector3.Distance(this.transform.position, targetPoint.position);
+
+        //Debug.Log(distanceToTarget);
 
     // add rewards if a target point is reached
-    if (distanceToTarget < 2f)
+        if (distanceToTarget < 2f)
     {
       AddReward(1.0f);
 
-      // increment target point, end episode if at end
-      //if (incrementTargetPoint() == null)
-      //{
-        if (useRoadBuilder) roadbuilder.DestroyRoad();
-        EndEpisode();
-      //}
+        // increment target point, end episode if at end
+        //if (incrementTargetPoint() == null)
 
+        if (useRoadBuilder)
+        {
+            roadbuilder.DestroyRoad();
+            roadbuilder.RoadLength++;
+        }
+        EndEpisode();
     }
   }
 
@@ -229,8 +235,8 @@ public class CarDriverAgent : Agent
     // Simple starting observations
 
     // Target and Agent positions
-    sensor.AddObservation(targetPoint.localPosition - this.transform.localPosition);
-    sensor.AddObservation(targetPoint.localPosition);
+    sensor.AddObservation(targetPoint.position - this.transform.position);
+    sensor.AddObservation(targetPoint.position);
     sensor.AddObservation(rBody.velocity);
 
     // Agent velocity
