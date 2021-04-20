@@ -20,7 +20,10 @@ public class RoadBuilding : MonoBehaviour
     void Start()
     {
         numLefts = 0;
-        previousEnd = new Vector3 (0.0f, 0.0f, 0.0f);
+
+        //Set the start of the first track piece to be the origin of this training area
+        previousEnd = transform.parent.position;
+
         cda = GetComponent<CarDriverAgent>();
     }
 
@@ -138,12 +141,15 @@ public class RoadBuilding : MonoBehaviour
         GameObject[] roads = GameObject.FindGameObjectsWithTag("Road");
 
         foreach (GameObject i in roads) {
-            Destroy(i);
+            if (i.transform.parent.gameObject == transform.parent.gameObject)
+            {
+                Destroy(i);
+            }
         }
 
         cda.RemoveDrivePoints();
 
         numLefts = 0;
-        previousEnd = new Vector3 (0.0f, 0.0f, 0.0f);
+        previousEnd = transform.parent.position;
     }
 }
