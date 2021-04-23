@@ -96,7 +96,7 @@ public class CarDriverAgent : Agent
     // Die if you fall off
     if (transform.localPosition.y < -.5f)
     {
-        AddReward(-.25f);
+        AddReward(-.5f);
         if (useRoadBuilder) roadbuilder.DestroyRoad();
         EndEpisode();
     }
@@ -110,7 +110,7 @@ public class CarDriverAgent : Agent
         isSlow = true;
         if(time - slowTime > 5f)
         {
-            AddReward(-.5f);
+            AddReward(-.75f);
             if (useRoadBuilder) roadbuilder.DestroyRoad();   
             EndEpisode();
         }
@@ -120,7 +120,7 @@ public class CarDriverAgent : Agent
     if(rBody.velocity.magnitude > .4f)
     {
         isSlow = false;
-        AddReward(.00001f * rBody.velocity.magnitude);
+        AddReward(.0001f * rBody.velocity.magnitude);
     }
     
 
@@ -131,7 +131,7 @@ public class CarDriverAgent : Agent
     // add rewards if a target point is reached
         if (distanceToTarget < 2f)
     {
-      AddReward(1.0f);
+      AddReward(3.0f);
 
         // increment target point, end episode if at end
         //if (incrementTargetPoint() == null)
@@ -139,7 +139,7 @@ public class CarDriverAgent : Agent
         if (useRoadBuilder)
         {
             roadbuilder.DestroyRoad();
-            roadbuilder.RoadLength++;
+            //roadbuilder.RoadLength++;
         }
         EndEpisode();
     }
