@@ -10,6 +10,7 @@ public class RoadBuilding : MonoBehaviour
     public GameObject CurvedPiece;
     public GameObject SPiece;
     public int RoadLength;
+    public int StdLength = 3;
 
     CarDriverAgent cda;
 

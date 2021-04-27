@@ -18,8 +18,9 @@ public class CarDriverAgent : Agent
   public bool useRoadBuilder;
 
   // Current spawnpoint is manually created
-  public List<Transform> spawnPoints;
+    public List<Transform> spawnPoints;
     public List<Transform> targetPoints;
+    public int curriculum = 1;
 
   private int currTargetPointIndex;
   public Transform targetPoint
@@ -53,9 +54,10 @@ public class CarDriverAgent : Agent
 
   public override void OnEpisodeBegin()
   {
+        roadbuilder.RoadLength = roadbuilder.StdLength * (2 * curriculum);
         if (useRoadBuilder) targetPoints.Clear();
         if (useRoadBuilder) roadbuilder.CreateRoad();
-        rBody.velocity = Vector3.zero;
+
         //transform.position = spawnPoint.position;
         //transform.rotation = Quaternion.identity;
         int rng = Random.Range(0, spawnPoints.Count - 1);
@@ -64,6 +66,7 @@ public class CarDriverAgent : Agent
         currTargetPointIndex = 0;
         transform.position = spawnPoints[rng].position;
         transform.rotation = spawnPoints[rng].rotation;
+        rBody.velocity = Vector3.zero;
 
         //transform.position = new Vector3(Random.Range(-100, 100), 1f, Random.Range(-100, 100));
         //transform.rotation = Quaternion.Euler(new Vector3(0f, Random.Range(0, 360)));
@@ -91,7 +94,7 @@ public class CarDriverAgent : Agent
     Vector3 dirToTarget = (targetPoint.position - this.transform.position).normalized;
     // The alignment of the agent's velocity with this direction
     float velocityAlignment = Vector3.Dot(dirToTarget, rBody.velocity);
-    AddReward(0.0001f * velocityAlignment);
+    AddReward((0.0001f * velocityAlignment)/curriculum);
 
     // Die if you fall off
     if (transform.localPosition.y < -.5f)
@@ -120,7 +123,7 @@ public class CarDriverAgent : Agent
     if(rBody.velocity.magnitude > .4f)
     {
         isSlow = false;
-        AddReward(.0001f * rBody.velocity.magnitude);
+        AddReward((.0001f * rBody.velocity.magnitude)/curriculum);
     }
     
 
@@ -131,7 +134,7 @@ public class CarDriverAgent : Agent
     // add rewards if a target point is reached
         if (distanceToTarget < 2f)
     {
-      AddReward(3.0f);
+      AddReward(1.5f);
 
         // increment target point, end episode if at end
         //if (incrementTargetPoint() == null)
@@ -225,23 +228,18 @@ public class CarDriverAgent : Agent
     {
         discreteActionsOut[1] = 0;
     }
-
-    //discreteActionsOut[1] = axisToDiscrete((int)Input.GetAxis("Horizontal"));
-    //discreteActionsOut[0] = axisToDiscrete((int)Input.GetAxis("Vertical"));
   }
 
   public override void CollectObservations(VectorSensor sensor)
   {
-    // Simple starting observations
-
     // Target and Agent positions
     sensor.AddObservation(targetPoint.position - this.transform.position);
-    sensor.AddObservation(targetPoint.position);
-    sensor.AddObservation(rBody.velocity);
+    sensor.AddObservation(targetPoint.position.x);
+    sensor.AddObservation(targetPoint.position.z);
 
     // Agent velocity
-    //sensor.AddObservation(rBody.velocity.x);
-    //sensor.AddObservation(rBody.velocity.z);
+    sensor.AddObservation(rBody.velocity.x);
+    sensor.AddObservation(rBody.velocity.z);
   }
 
   private int axisToDiscrete(int axis)
