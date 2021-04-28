@@ -18,7 +18,9 @@ public class RandomStoplightGeneration : MonoBehaviour
             print("making stoplight");
             if (stoplightRef && spawnPoint)
             {
-                Object.Instantiate(stoplightRef, spawnPoint.position, spawnPoint.rotation, this.transform);
+                GameObject stoplightInstance = Object.Instantiate(stoplightRef, spawnPoint.position, spawnPoint.rotation, this.transform);
+                stoplightInstance.transform.localScale += new Vector3(0.0f, 50.0f, 0.0f);
+
             }
             else
             {

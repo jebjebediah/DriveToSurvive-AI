@@ -12,7 +12,7 @@ public class RoadBuilding : MonoBehaviour
     public int RoadLength;
     public int StdLength = 3;
 
-    public float RoadVerticalScale = 1.0f;
+    public float RoadVerticalScale = 0.01f;
 
     CarDriverAgent cda;
 
