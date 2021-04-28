@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 33196351231845694}
   - component: {fileID: 23750407454597304}
   - component: {fileID: 2790897801984710092}
+  - component: {fileID: 2993360215269740248}
   m_Layer: 0
   m_Name: TB_CITY_Prop_TrafficLight_VSet_Black
   m_TagString: Untagged
@@ -95,9 +96,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7899d53e2b9544074b140fb2e7ef4a1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LightIntensity: 2
   redLight: {fileID: 5129576228683306826}
   yellowLight: {fileID: 8157118527950863853}
   greenLight: {fileID: 3209042043627122834}
+--- !u!65 &2993360215269740248
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1778297097499602}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.616668, y: 7.4485145, z: 1.0731201}
+  m_Center: {x: -2.3861134, y: 3.7242572, z: -0.17090611}
 --- !u!1 &293628983572866090
 GameObject:
   m_ObjectHideFlags: 0

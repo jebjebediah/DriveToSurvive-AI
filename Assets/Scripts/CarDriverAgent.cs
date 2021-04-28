@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,29 +8,29 @@ using Unity.MLAgents.Actuators;
 
 public class CarDriverAgent : Agent
 {
-  Rigidbody rBody;
-  WheelDrive wd;
-  RoadBuilding roadbuilder;
-  float time = 0.0f;
-  float slowTime = 0.0f;
-  bool isSlow = false;
+    Rigidbody rBody;
+    WheelDrive wd;
+    RoadBuilding roadbuilder;
+    float time = 0.0f;
+    float slowTime = 0.0f;
+    bool isSlow = false;
 
-  public bool useRoadBuilder;
+    public bool useRoadBuilder;
 
-  // Current spawnpoint is manually created
+    // Current spawnpoint is manually created
     public List<Transform> spawnPoints;
     public List<Transform> targetPoints;
     public int curriculum = 1;
 
-  private int currTargetPointIndex;
-  public Transform targetPoint
-  {
-    get
+    private int currTargetPointIndex;
+    public Transform targetPoint
     {
-      if (targetPoints.Count <= 0) return gameObject.transform;
-      return targetPoints[currTargetPointIndex];
+        get
+        {
+            if (targetPoints.Count <= 0) return gameObject.transform;
+            return targetPoints[currTargetPointIndex];
+        }
     }
-  }
 
   private Transform incrementTargetPoint()
   {
@@ -111,9 +111,9 @@ public class CarDriverAgent : Agent
             slowTime = time;
         }
         isSlow = true;
-        if(time - slowTime > 5f)
+        if(time - slowTime > 30f)
         {
-            AddReward(-.75f);
+            AddReward(-1f);
             if (useRoadBuilder) roadbuilder.DestroyRoad();   
             EndEpisode();
         }
@@ -148,9 +148,26 @@ public class CarDriverAgent : Agent
     }
   }
 
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("GreenLight"))
+        {
+            AddReward(.5f);
+        }
+        if (other.gameObject.CompareTag("YellowLight"))
+        {
+            AddReward(.25f);
+        }
+        if (other.gameObject.CompareTag("RedLight"))
+        {
+            AddReward(-.5f);
+            EndEpisode();
+        }
+    }
 
-  //Adds a goal point when a road is generated
-  public void RegisterDrivePoint(Transform drivePoint) {
+
+        //Adds a goal point when a road is generated
+        public void RegisterDrivePoint(Transform drivePoint) {
     targetPoints.Add(drivePoint);
   }
 
