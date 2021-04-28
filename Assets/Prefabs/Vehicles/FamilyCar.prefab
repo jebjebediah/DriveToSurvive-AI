@@ -144,7 +144,7 @@ WheelCollider:
     damper: 6433.375
     targetPosition: 0.5
   m_SuspensionDistance: 0.19620001
-  m_ForceAppPointDistance: 0.67795193
+  m_ForceAppPointDistance: 0.677952
   m_Mass: 20
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
@@ -298,7 +298,7 @@ WheelCollider:
     damper: 5486.9604
     targetPosition: 0.5
   m_SuspensionDistance: 0.19619998
-  m_ForceAppPointDistance: 0.67795193
+  m_ForceAppPointDistance: 0.677952
   m_Mass: 20
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
@@ -359,7 +359,7 @@ WheelCollider:
     damper: 6513.0405
     targetPosition: 0.5
   m_SuspensionDistance: 0.19620003
-  m_ForceAppPointDistance: 0.67795193
+  m_ForceAppPointDistance: 0.677952
   m_Mass: 20
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
@@ -391,6 +391,7 @@ GameObject:
   - component: {fileID: 2257543512008930830}
   - component: {fileID: 5138660467657994817}
   - component: {fileID: 2397743921606572311}
+  - component: {fileID: 6299317086727409112}
   m_Layer: 0
   m_Name: FamilyCar
   m_TagString: Untagged
@@ -536,8 +537,10 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
+  useRoadBuilder: 0
   spawnPoints: []
   targetPoints: []
+  curriculum: 1
 --- !u!114 &2397743921606572311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -552,6 +555,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DecisionPeriod: 5
   TakeActionsBetweenDecisions: 1
+--- !u!114 &6299317086727409112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013904118194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bb6b867a41448888c1cd4f99643ad71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SensorName: RayPerceptionSensor
+  m_DetectableTags:
+  - RedLight
+  - YellowLight
+  - GreenLight
+  m_RaysPerDirection: 3
+  m_MaxRayDegrees: 20
+  m_SphereCastRadius: 0.5
+  m_RayLength: 15
+  m_RayLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967291
+  m_ObservationStacks: 1
+  rayHitColor: {r: 1, g: 0, b: 0, a: 1}
+  rayMissColor: {r: 1, g: 1, b: 1, a: 1}
+  m_StartVerticalOffset: 1
+  m_EndVerticalOffset: 2.5
 --- !u!1 &1000014136951468
 GameObject:
   m_ObjectHideFlags: 0
@@ -597,7 +629,7 @@ WheelCollider:
     damper: 5566.626
     targetPosition: 0.5
   m_SuspensionDistance: 0.19619998
-  m_ForceAppPointDistance: 0.67795193
+  m_ForceAppPointDistance: 0.677952
   m_Mass: 20
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
