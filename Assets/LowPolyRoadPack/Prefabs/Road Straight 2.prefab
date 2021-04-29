@@ -115,6 +115,7 @@ MonoBehaviour:
   spawnPoint: {fileID: 757557233928137521}
   stoplightRef: {fileID: 1778297097499602, guid: 597e85f7f9640614fb81bc56394201e8,
     type: 3}
+  enabled: 1
 --- !u!1 &1477607008821941001
 GameObject:
   m_ObjectHideFlags: 0

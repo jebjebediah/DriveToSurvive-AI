@@ -111,7 +111,7 @@ public class CarDriverAgent : Agent
             slowTime = time;
         }
         isSlow = true;
-        if(time - slowTime > 30f)
+        if(time - slowTime > 20f)
         {
             AddReward(-1f);
             if (useRoadBuilder) roadbuilder.DestroyRoad();   
@@ -160,7 +160,8 @@ public class CarDriverAgent : Agent
         }
         if (other.gameObject.CompareTag("RedLight"))
         {
-            AddReward(-.5f);
+            AddReward(-.75f);
+            if (useRoadBuilder) roadbuilder.DestroyRoad();
             EndEpisode();
         }
     }
