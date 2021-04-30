@@ -1269,7 +1269,7 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 249737924}
   targetPoints: []
-  curriculum: 1
+  curriculum: 2
 --- !u!114 &498363544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1498,7 +1498,7 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 362098372}
   targetPoints: []
-  curriculum: 1
+  curriculum: 2
 --- !u!114 &556576510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2590,7 +2590,7 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 708793007}
   targetPoints: []
-  curriculum: 1
+  curriculum: 2
 --- !u!114 &929246111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4399,7 +4399,7 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 1106502370}
   targetPoints: []
-  curriculum: 1
+  curriculum: 2
 --- !u!114 &1568776742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4628,7 +4628,7 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 1902800759}
   targetPoints: []
-  curriculum: 1
+  curriculum: 2
 --- !u!114 &1605445898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5131,7 +5131,7 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 970966523}
   targetPoints: []
-  curriculum: 1
+  curriculum: 2
 --- !u!114 &1855004674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5456,7 +5456,7 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 1430160571}
   targetPoints: []
-  curriculum: 1
+  curriculum: 2
 --- !u!114 &1878038573
 MonoBehaviour:
   m_ObjectHideFlags: 0

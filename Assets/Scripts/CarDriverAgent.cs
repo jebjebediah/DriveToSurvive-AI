@@ -160,7 +160,7 @@ public class CarDriverAgent : Agent
         }
         if (other.gameObject.CompareTag("RedLight"))
         {
-            AddReward(-.75f);
+            AddReward(-2f);
             if (useRoadBuilder) roadbuilder.DestroyRoad();
             EndEpisode();
         }

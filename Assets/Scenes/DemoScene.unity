@@ -819,7 +819,7 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 1430160571}
   targetPoints: []
-  curriculum: 3
+  curriculum: 2
 --- !u!114 &1878038573
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -842,7 +842,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 0}
+  m_Model: {fileID: 5022602860645237092, guid: e3fa4686979590c4191c0d6d287bdab9, type: 3}
   m_InferenceDevice: 2
   m_BehaviorType: 0
   m_BehaviorName: Driver_Agent
@@ -941,7 +941,7 @@ MonoBehaviour:
   m_RaysPerDirection: 2
   m_MaxRayDegrees: 25
   m_SphereCastRadius: 1
-  m_RayLength: 50
+  m_RayLength: 20
   m_RayLayerMask:
     serializedVersion: 2
     m_Bits: 4294967291
